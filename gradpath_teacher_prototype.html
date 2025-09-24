@@ -1,0 +1,2053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GradPath Teacher Learning Experience - MAP Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* Teacher View Styles */
+        .teacher-view {
+            display: block;
+        }
+
+        /* Teacher Navigation */
+        .teacher-nav {
+            padding: 2rem;
+        }
+
+        .nav-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .nav-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 4px solid #3b82f6;
+            text-align: center;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .nav-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .nav-card p {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-stats {
+            color: #3b82f6;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .course-dashboard {
+            display: block;
+        }
+
+        .course-dashboard.hidden {
+            display: none !important;
+        }
+
+        .task-dashboard {
+            display: block;
+        }
+
+        .task-dashboard.hidden {
+            display: none !important;
+        }
+
+        .student-selection {
+            padding: 2rem;
+        }
+
+        .student-selection.hidden {
+            display: none !important;
+        }
+
+        .individual-student-dashboard.hidden {
+            display: none !important;
+        }
+
+        .teacher-nav.hidden {
+            display: none !important;
+        }
+
+        .selection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .selection-header h1 {
+            font-size: 2rem;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .back-to-main {
+            background: #6b7280;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .back-to-main:hover {
+            background: #4b5563;
+        }
+
+        .student-filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: #e5e7eb;
+            color: #374151;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .filter-btn.active {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .filter-btn:hover {
+            background: #d1d5db;
+        }
+
+        .filter-btn.active:hover {
+            background: #2563eb;
+        }
+
+        .students-overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .student-overview-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 4px solid #10b981;
+        }
+
+        .student-overview-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .student-overview-card.needs-help {
+            border-left-color: #ef4444;
+            background: #fefcfc;
+        }
+
+        .student-overview-card.has-discussion {
+            border-left-color: #f59e0b;
+            background: #fffcf9;
+        }
+
+        .student-overview-card.high-performer {
+            border-left-color: #10b981;
+            background: #fcfffe;
+        }
+
+        .student-overview-card.inactive {
+            border-left-color: #6b7280;
+            background: #fafafa;
+        }
+
+        .student-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .student-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #3b82f6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .student-avatar.large {
+            width: 64px;
+            height: 64px;
+            font-size: 1.2rem;
+        }
+
+        .student-info h3 {
+            font-size: 1.2rem;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .student-courses {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .student-alerts {
+            margin-bottom: 1rem;
+        }
+
+        .alert-item {
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .alert-item.urgent {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .alert-item.discussion {
+            background: #fffbeb;
+            color: #d97706;
+            border: 1px solid #fcd34d;
+        }
+
+        .alert-item.positive {
+            background: #ecfdf5;
+            color: #059669;
+            border: 1px solid #a7f3d0;
+        }
+
+        .alert-item.warning {
+            background: #fef3c7;
+            color: #d97706;
+            border: 1px solid #fcd34d;
+        }
+
+        .student-summary {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        /* Individual Student Dashboard */
+        .individual-student-dashboard {
+            
+        }
+
+        .student-dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .student-profile {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .student-details h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .student-meta {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .back-to-students {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .back-to-students:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .student-dashboard-content {
+            padding: 2rem;
+        }
+
+        .alert-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .alert-card {
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .alert-card.urgent {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+        }
+
+        .alert-card.warning {
+            background: #fffbeb;
+            border-left-color: #f59e0b;
+        }
+
+        .alert-card h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .alert-action {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        .alert-action:hover {
+            background: #2563eb;
+        }
+
+        .course-progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .course-progress-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid;
+        }
+
+        .course-progress-card.physics {
+            border-left-color: #8b5cf6;
+        }
+
+        .course-progress-card.math {
+            border-left-color: #10b981;
+        }
+
+        .course-progress-card.english {
+            border-left-color: #f59e0b;
+        }
+
+        .course-progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .course-progress-header h3 {
+            color: #1f2937;
+            font-size: 1.3rem;
+        }
+
+        .progress-indicator {
+            background: #e5e7eb;
+            color: #1f2937;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .current-activity {
+            margin-bottom: 1rem;
+        }
+
+        .activity-status {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .activity-status.urgent {
+            color: #dc2626;
+        }
+
+        .activity-status.behind {
+            color: #d97706;
+        }
+
+        .activity-status.good {
+            color: #059669;
+        }
+
+        .activity-location {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        .course-stats {
+            margin-bottom: 1rem;
+        }
+
+        .course-stats div {
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .course-action {
+            background: #f3f4f6;
+            color: #374151;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .course-action:hover {
+            background: #e5e7eb;
+        }
+
+        .activity-timeline {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .activity-timeline h3 {
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .timeline-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+            background: #f9fafb;
+        }
+
+        .timeline-item.urgent {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+
+        .timeline-time {
+            color: #6b7280;
+            font-size: 0.85rem;
+            min-width: 80px;
+            flex-shrink: 0;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .timeline-description {
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-action {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .timeline-action:hover {
+            background: #2563eb;
+        }
+
+        .quick-actions {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .quick-actions h3 {
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .quick-action-btn {
+            background: #f3f4f6;
+            color: #374151;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .quick-action-btn:hover {
+            background: #e5e7eb;
+            transform: translateY(-1px);
+        }
+
+        .quick-action-btn.urgent {
+            background: #fecaca;
+            color: #dc2626;
+        }
+
+        .quick-action-btn.urgent:hover {
+            background: #fca5a5;
+        }
+
+        /* Course Selection Screen */
+        .course-selection {
+            padding: 2rem;
+        }
+
+        .teacher-welcome {
+            background: #1f2937;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .course-card.physics {
+            border-left-color: #8b5cf6;
+        }
+
+        .course-card.math {
+            border-left-color: #10b981;
+        }
+
+        .course-card.english {
+            border-left-color: #f59e0b;
+        }
+
+        .course-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+
+        .course-details {
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .course-stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.9rem;
+            color: #4b5563;
+        }
+
+        .active-alerts {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .alert-text {
+            color: #dc2626;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Course Dashboard */
+        .course-dashboard {
+            display: none;
+        }
+
+        .course-header {
+            background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+            color: white;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-info h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-meta {
+            opacity: 0.9;
+        }
+
+        .back-to-courses {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .back-to-courses:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .dashboard-content {
+            padding: 2rem;
+        }
+
+        .dashboard-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .overview-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .overview-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+
+        .overview-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .activities-list {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .activities-header {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .activity-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .activity-item:hover {
+            background: #f9fafb;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-info h3 {
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-details {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .activity-stats {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .stat-badge {
+            background: #e5e7eb;
+            color: #374151;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .stat-badge.alert {
+            background: #fecaca;
+            color: #dc2626;
+        }
+
+        .stat-badge.active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        /* Task Dashboard (existing styles) */
+        .task-dashboard {
+            display: none;
+        }
+
+        .teacher-header {
+            background: #1f2937;
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .teacher-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .task-info {
+            color: #9ca3af;
+            margin-top: 0.5rem;
+        }
+
+        .teacher-dashboard-content {
+            padding: 2rem;
+        }
+
+        .dashboard-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .control-btn:hover {
+            background: #2563eb;
+        }
+
+        .control-btn.active {
+            background: #1d4ed8;
+        }
+
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .student-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #10b981;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .student-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .student-card.needs-help {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .student-card.has-discussion {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .student-card.inactive {
+            border-left-color: #6b7280;
+            opacity: 0.7;
+        }
+
+        .student-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .student-location {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .student-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-active {
+            background: #10b981;
+        }
+
+        .status-help {
+            background: #ef4444;
+        }
+
+        .status-discussion {
+            background: #f59e0b;
+        }
+
+        .status-inactive {
+            background: #6b7280;
+        }
+
+        /* Individual Student View */
+        .individual-student-view {
+            display: none;
+            padding: 2rem;
+        }
+
+        .back-button {
+            background: #6b7280;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+
+        .student-workspace-preview {
+            background: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .help-request-panel {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .discussion-panel {
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .help-request-text, .discussion-text {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .help-request-text {
+            color: #b91c1c;
+        }
+
+        .discussion-text {
+            color: #d97706;
+        }
+
+        .teacher-response {
+            margin-top: 1rem;
+        }
+
+        .response-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .send-response {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .breadcrumb {
+            background: #f3f4f6;
+            padding: 1rem 2rem;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Teacher View -->
+        <div class="teacher-view" id="teacherView">
+            <!-- Main Teacher Navigation -->
+            <div class="teacher-nav" id="teacherNav">
+                <div class="teacher-welcome">
+                    <h1>Welcome back, Ms. Maria!</h1>
+                    <p>Choose how you'd like to monitor and support your students today</p>
+                </div>
+
+                <div class="nav-options">
+                    <div class="nav-card" onclick="showCourseSelection()">
+                        <div class="nav-icon">📚</div>
+                        <h3>View by Course</h3>
+                        <p>Monitor student activity within specific subjects and tasks</p>
+                        <div class="nav-stats">3 courses • 8 total students</div>
+                    </div>
+                    
+                    <div class="nav-card" onclick="showStudentSelection()">
+                        <div class="nav-icon">👥</div>
+                        <h3>View by Student</h3>
+                        <p>Track individual student progress across all courses</p>
+                        <div class="nav-stats">8 students • 3 need attention</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Selection Screen -->
+            <div class="course-selection hidden" id="courseSelection">
+                <div class="selection-header">
+                    <div>
+                        <h1>All Courses</h1>
+                        <p>Select a course to view student activity and provide support</p>
+                    </div>
+                    <button class="back-to-main" onclick="showTeacherNav()">← Main Menu</button>
+                </div>
+
+                <div class="courses-grid">
+                    <div class="course-card physics" onclick="selectCourse('physics')">
+                        <h3 class="course-title">Physics</h3>
+                        <div class="course-details">8 total students</div>
+                        <div class="course-stats">
+                            <div class="stat-item">👥 6 active</div>
+                            <div class="stat-item">📚 28 tasks</div>
+                            <div class="stat-item">⏰ 2 hr avg/week</div>
+                        </div>
+                        <div class="active-alerts">
+                            <div class="alert-text">🚨 2 students need help • 2 active discussions</div>
+                        </div>
+                    </div>
+
+                    <div class="course-card math" onclick="selectCourse('math')">
+                        <h3 class="course-title">Mathematics</h3>
+                        <div class="course-details">8 total students</div>
+                        <div class="course-stats">
+                            <div class="stat-item">👥 4 active</div>
+                            <div class="stat-item">📚 32 tasks</div>
+                            <div class="stat-item">⏰ 3 hr avg/week</div>
+                        </div>
+                        <div class="active-alerts">
+                            <div class="alert-text">🚨 1 student needs help • 5 active discussions</div>
+                        </div>
+                    </div>
+
+                    <div class="course-card english" onclick="selectCourse('english')">
+                        <h3 class="course-title">English</h3>
+                        <div class="course-details">6 total students</div>
+                        <div class="course-stats">
+                            <div class="stat-item">👥 3 active</div>
+                            <div class="stat-item">📚 26 tasks</div>
+                            <div class="stat-item">⏰ 1.5 hr avg/week</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Selection Screen -->
+            <div class="student-selection hidden" id="studentSelection">
+                <div class="selection-header">
+                    <div>
+                        <h1>All Students</h1>
+                        <p>Monitor individual student progress across all your courses</p>
+                    </div>
+                    <button class="back-to-main" onclick="showTeacherNav()">← Main Menu</button>
+                </div>
+
+                <div class="student-filters">
+                    <button class="filter-btn active" onclick="filterAllStudents('all')">All Students (8)</button>
+                    <button class="filter-btn" onclick="filterAllStudents('need-help')">Need Help (2)</button>
+                    <button class="filter-btn" onclick="filterAllStudents('discussions')">Active Discussions (3)</button>
+                    <button class="filter-btn" onclick="filterAllStudents('inactive')">Inactive Today (1)</button>
+                    <button class="filter-btn" onclick="filterAllStudents('high-performers')">High Performers (2)</button>
+                </div>
+
+                <div class="students-overview-grid">
+                    <!-- Students needing help -->
+                    <div class="student-overview-card needs-help" onclick="viewStudentDashboard('james-chen')">
+                        <div class="student-header">
+                            <div class="student-avatar">JC</div>
+                            <div class="student-info">
+                                <h3>James Chen</h3>
+                                <div class="student-courses">Physics • Math • English</div>
+                            </div>
+                        </div>
+                        <div class="student-alerts">
+                            <div class="alert-item urgent">🚨 Help request in Physics (3min ago)</div>
+                            <div class="alert-item">📚 Behind on Math assignment</div>
+                        </div>
+                        <div class="student-summary">
+                            <div class="summary-stat">📊 68% avg completion</div>
+                            <div class="summary-stat">⏰ 2.1hrs this week</div>
+                        </div>
+                    </div>
+
+                    <div class="student-overview-card needs-help" onclick="viewStudentDashboard('maya-thompson')">
+                        <div class="student-header">
+                            <div class="student-avatar">MT</div>
+                            <div class="student-info">
+                                <h3>Maya Thompson</h3>
+                                <div class="student-courses">Physics • Math</div>
+                            </div>
+                        </div>
+                        <div class="student-alerts">
+                            <div class="alert-item urgent">🚨 Help request in Physics (1min ago)</div>
+                        </div>
+                        <div class="student-summary">
+                            <div class="summary-stat">📊 72% avg completion</div>
+                            <div class="summary-stat">⏰ 3.2hrs this week</div>
+                        </div>
+                    </div>
+
+                    <!-- Students with discussions -->
+                    <div class="student-overview-card has-discussion" onclick="viewStudentDashboard('alex-johnson')">
+                        <div class="student-header">
+                            <div class="student-avatar">AJ</div>
+                            <div class="student-info">
+                                <h3>Alex Johnson</h3>
+                                <div class="student-courses">Physics • Math • English</div>
+                            </div>
+                        </div>
+                        <div class="student-alerts">
+                            <div class="alert-item discussion">💬 Active in Physics discussion</div>
+                            <div class="alert-item discussion">💬 Started Math discussion</div>
+                        </div>
+                        <div class="student-summary">
+                            <div class="summary-stat">📊 89% avg completion</div>
+                            <div class="summary-stat">⏰ 4.8hrs this week</div>
+                        </div>
+                    </div>
+
+                    <div class="student-overview-card has-discussion" onclick="viewStudentDashboard('sophia-martinez')">
+                        <div class="student-header">
+                            <div class="student-avatar">SM</div>
+                            <div class="student-info">
+                                <h3>Sophia Martinez</h3>
+                                <div class="student-courses">Physics • English</div>
+                            </div>
+                        </div>
+                        <div class="student-alerts">
+                            <div class="alert-item discussion">💬 Active in Physics discussion</div>
+                        </div>
+                        <div class="student-summary">
+                            <div class="summary-stat">📊 91% avg completion</div>
+                            <div class="summary-stat">⏰ 3.9hrs this week</div>
+                        </div>
+                    </div>
+
+                    <!-- High performing students -->
+                    <div class="student-overview-card high-performer" onclick="viewStudentDashboard('emma-rodriguez')">
+                        <div class="student-header">
+                            <div class="student-avatar">ER</div>
+                            <div class="student-info">
+                                <h3>Emma Rodriguez</h3>
+                                <div class="student-courses">Physics • Math • English</div>
+                            </div>
+                        </div>
+                        <div class="student-alerts">
+                            <div class="alert-item positive">✨ Completed Physics early</div>
+                            <div class="alert-item positive">🎯 100% on last Math task</div>
+                        </div>
+                        <div class="student-summary">
+                            <div class="summary-stat">📊 96% avg completion</div>
+                            <div class="summary-stat">⏰ 5.2hrs this week</div>
+                        </div>
+                    </div>
+
+                    <div class="student-overview-card" onclick="viewStudentDashboard('sofia-patel')">
+                        <div class="student-header">
+                            <div class="student-avatar">SP</div>
+                            <div class="student-info">
+                                <h3>Sofia Patel</h3>
+                                <div class="student-courses">Physics • Math • English</div>
+                            </div>
+                        </div>
+                        <div class="student-alerts">
+                            <div class="alert-item">📚 Working on Physics quiz</div>
+                        </div>
+                        <div class="student-summary">
+                            <div class="summary-stat">📊 84% avg completion</div>
+                            <div class="summary-stat">⏰ 3.1hrs this week</div>
+                        </div>
+                    </div>
+
+                    <!-- More students -->
+                    <div class="student-overview-card" onclick="viewStudentDashboard('carlos-garcia')">
+                        <div class="student-header">
+                            <div class="student-avatar">CG</div>
+                            <div class="student-info">
+                                <h3>Carlos Garcia</h3>
+                                <div class="student-courses">Physics • Math</div>
+                            </div>
+                        </div>
+                        <div class="student-alerts">
+                            <div class="alert-item">📹 Watching Physics video</div>
+                        </div>
+                        <div class="student-summary">
+                            <div class="summary-stat">📊 78% avg completion</div>
+                            <div class="summary-stat">⏰ 2.8hrs this week</div>
+                        </div>
+                    </div>
+
+                    <div class="student-overview-card inactive" onclick="viewStudentDashboard('david-kim')">
+                        <div class="student-header">
+                            <div class="student-avatar">DK</div>
+                            <div class="student-info">
+                                <h3>David Kim</h3>
+                                <div class="student-courses">Physics • English</div>
+                            </div>
+                        </div>
+                        <div class="student-alerts">
+                            <div class="alert-item warning">⚠️ No activity today</div>
+                            <div class="alert-item">📚 Last seen: Physics (15min ago)</div>
+                        </div>
+                        <div class="student-summary">
+                            <div class="summary-stat">📊 65% avg completion</div>
+                            <div class="summary-stat">⏰ 1.2hrs this week</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Individual Student Dashboard -->
+            <div class="individual-student-dashboard hidden" id="individualStudentDashboard">
+                <div class="student-dashboard-header">
+                    <div class="student-profile">
+                        <div class="student-avatar large" id="dashboardAvatar">JC</div>
+                        <div class="student-details">
+                            <h1 id="dashboardStudentName">James Chen</h1>
+                            <div class="student-meta" id="dashboardStudentMeta">MAP Academy • 3 Courses • ID: 2024-JC-789</div>
+                        </div>
+                    </div>
+                    <button class="back-to-students" onclick="backToStudentSelection()">← All Students</button>
+                </div>
+
+                <div class="breadcrumb">
+                    <a href="#" onclick="showTeacherNav()">Main Menu</a> > 
+                    <a href="#" onclick="backToStudentSelection()">All Students</a> > 
+                    <span id="breadcrumbStudentName">James Chen</span>
+                </div>
+
+                <div class="student-dashboard-content">
+                    <!-- Alert Summary -->
+                    <div class="alert-summary" id="alertSummary">
+                        <div class="alert-card urgent">
+                            <h4>🚨 Immediate Attention</h4>
+                            <div>Help request in Physics: Forces & Motion (3 min ago)</div>
+                            <button class="alert-action" onclick="goToHelpRequest()">Respond Now</button>
+                        </div>
+                        <div class="alert-card warning">
+                            <h4>⚠️ Needs Support</h4>
+                            <div>Behind schedule on Math: Algebraic Expressions</div>
+                            <button class="alert-action" onclick="sendEncouragement()">Send Message</button>
+                        </div>
+                    </div>
+
+                    <!-- Course Progress Overview -->
+                    <div class="course-progress-grid">
+                        <div class="course-progress-card physics">
+                            <div class="course-progress-header">
+                                <h3>Physics</h3>
+                                <div class="progress-indicator">68%</div>
+                            </div>
+                            <div class="current-activity">
+                                <div class="activity-status urgent">🚨 Needs help on Forces & Motion</div>
+                                <div class="activity-location">Stuck at: Check Your Understanding</div>
+                            </div>
+                            <div class="course-stats">
+                                <div>📊 18/28 tasks completed</div>
+                                <div>⏰ 2.1hrs this week</div>
+                                <div>🎯 Last score: 85%</div>
+                            </div>
+                            <button class="course-action" onclick="viewCourseActivity('physics', 'james-chen')">View Details</button>
+                        </div>
+
+                        <div class="course-progress-card math">
+                            <div class="course-progress-header">
+                                <h3>Mathematics</h3>
+                                <div class="progress-indicator">72%</div>
+                            </div>
+                            <div class="current-activity">
+                                <div class="activity-status behind">⚠️ Behind on Algebraic Expressions</div>
+                                <div class="activity-location">Due tomorrow</div>
+                            </div>
+                            <div class="course-stats">
+                                <div>📊 23/32 tasks completed</div>
+                                <div>⏰ 1.8hrs this week</div>
+                                <div>🎯 Last score: 78%</div>
+                            </div>
+                            <button class="course-action" onclick="viewCourseActivity('math', 'james-chen')">View Details</button>
+                        </div>
+
+                        <div class="course-progress-card english">
+                            <div class="course-progress-header">
+                                <h3>English</h3>
+                                <div class="progress-indicator">81%</div>
+                            </div>
+                            <div class="current-activity">
+                                <div class="activity-status good">✅ On track with Poetry Analysis</div>
+                                <div class="activity-location">Currently reading</div>
+                            </div>
+                            <div class="course-stats">
+                                <div>📊 21/26 tasks completed</div>
+                                <div>⏰ 1.4hrs this week</div>
+                                <div>🎯 Last score: 92%</div>
+                            </div>
+                            <button class="course-action" onclick="viewCourseActivity('english', 'james-chen')">View Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity Timeline -->
+                    <div class="activity-timeline">
+                        <h3>Recent Activity</h3>
+                        <div class="timeline-items">
+                            <div class="timeline-item urgent">
+                                <div class="timeline-time">3 min ago</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">🚨 Help Request - Physics</div>
+                                    <div class="timeline-description">Confused about quiz question in Forces & Motion</div>
+                                    <button class="timeline-action" onclick="goToHelpRequest()">Respond</button>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">15 min ago</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">📝 Completed Activity - Physics</div>
+                                    <div class="timeline-description">Finished Interactive Force Experiment worksheet</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">1 hour ago</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">📹 Watched Video - Physics</div>
+                                    <div class="timeline-description">Forces in Everyday Life (completed)</div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-time">Yesterday</div>
+                                <div class="timeline-content">
+                                    <div class="timeline-title">✅ Submitted Assignment - Math</div>
+                                    <div class="timeline-description">Linear Equations Practice - Score: 78%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <div class="actions-grid">
+                            <button class="quick-action-btn urgent" onclick="goToHelpRequest()">
+                                🚨 Respond to Help Request
+                            </button>
+                            <button class="quick-action-btn" onclick="sendEncouragement()">
+                                💌 Send Encouragement
+                            </button>
+                            <button class="quick-action-btn" onclick="scheduleCheckin()">
+                                📅 Schedule Check-in
+                            </button>
+                            <button class="quick-action-btn" onclick="viewFullProgress()">
+                                📊 View Detailed Progress
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Dashboard -->
+            <div class="course-dashboard hidden" id="courseDashboard">
+                <div class="course-header">
+                    <div class="course-info">
+                        <h1 id="courseTitle">Physics</h1>
+                        <div class="course-meta" id="courseMeta">8 students • 28 active tasks</div>
+                    </div>
+                    <button class="back-to-courses" onclick="backToCourses()">← All Courses</button>
+                </div>
+
+                <div class="breadcrumb">
+                    <a href="#" onclick="showTeacherNav()">Main Menu</a> > 
+                    <a href="#" onclick="backToCourses()">All Courses</a> > 
+                    <span id="breadcrumbCourseName">Physics</span>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="dashboard-overview">
+                        <div class="overview-card">
+                            <div class="overview-number" id="activeStudents">6</div>
+                            <div class="overview-label">Students Active Today</div>
+                        </div>
+                        <div class="overview-card">
+                            <div class="overview-number" id="helpRequests">2</div>
+                            <div class="overview-label">Need Help</div>
+                        </div>
+                        <div class="overview-card">
+                            <div class="overview-number" id="activeDiscussions">3</div>
+                            <div class="overview-label">Active Discussions</div>
+                        </div>
+                        <div class="overview-card">
+                            <div class="overview-number">85%</div>
+                            <div class="overview-label">Avg. Completion</div>
+                        </div>
+                    </div>
+
+                    <div class="activities-list">
+                        <div class="activities-header">
+                            <h3>Learning Activities</h3>
+                        </div>
+                        
+                        <div class="activity-item" onclick="selectTask('forces-motion')">
+                            <div class="activity-info">
+                                <h3>Forces and Motion</h3>
+                                <div class="activity-details">Interactive experiments with Newton's Laws • Due: Friday</div>
+                            </div>
+                            <div class="activity-stats">
+                                <span class="stat-badge alert">2 help requests</span>
+                                <span class="stat-badge alert">2 discussions</span>
+                                <span class="stat-badge active">6 active</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item" onclick="selectTask('energy-work')">
+                            <div class="activity-info">
+                                <h3>Energy and Work</h3>
+                                <div class="activity-details">Exploring potential and kinetic energy • Due: Next Tuesday</div>
+                            </div>
+                            <div class="activity-stats">
+                                <span class="stat-badge">3 discussions</span>
+                                <span class="stat-badge active">4 active</span>
+                            </div>
+                        </div>
+
+                        <div class="activity-item" onclick="selectTask('simple-machines')">
+                            <div class="activity-info">
+                                <h3>Simple Machines</h3>
+                                <div class="activity-details">Levers, pulleys, and mechanical advantage • Due: Next Friday</div>
+                            </div>
+                            <div class="activity-stats">
+                                <span class="stat-badge">1 discussion</span>
+                                <span class="stat-badge active">3 active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task Dashboard -->
+            <div class="task-dashboard hidden" id="taskDashboard">
+                <div class="teacher-header">
+                    <div>
+                        <h1 class="teacher-title">Forces and Motion - Live Dashboard</h1>
+                        <div class="task-info">Physics • 8 students • 2 help requests • 2 active discussions</div>
+                    </div>
+                    <button class="back-to-courses" onclick="backToCourseDashboard()">← Course Dashboard</button>
+                </div>
+
+                <div class="breadcrumb">
+                    <a href="#" onclick="showTeacherNav()">Main Menu</a> > 
+                    <a href="#" onclick="backToCourses()">All Courses</a> > 
+                    <a href="#" onclick="backToCourseDashboard()">Physics</a> > 
+                    Forces and Motion
+                </div>
+
+                <div class="teacher-dashboard-content" id="mainDashboard">
+                    <div class="dashboard-controls">
+                        <button class="control-btn active">All Students (8)</button>
+                        <button class="control-btn" onclick="filterStudents('help')">Need Help (2)</button>
+                        <button class="control-btn" onclick="filterStudents('discussion')">Discussions (3)</button>
+                        <button class="control-btn" onclick="filterStudents('active')">Active (6)</button>
+                        <button class="control-btn" onclick="filterStudents('inactive')">Inactive (1)</button>
+                    </div>
+
+                    <div class="students-grid" id="studentsGrid">
+                        <!-- Students with help requests -->
+                        <div class="student-card needs-help" onclick="viewStudent('james', 'help')">
+                            <div class="student-name">James Chen</div>
+                            <div class="student-location">Stuck on: Check Your Understanding (Quiz)</div>
+                            <div class="student-status">
+                                <div class="status-indicator status-help"></div>
+                                <span>Help requested 3 min ago</span>
+                            </div>
+                        </div>
+
+                        <div class="student-card needs-help" onclick="viewStudent('maya', 'help')">
+                            <div class="student-name">Maya Thompson</div>
+                            <div class="student-location">Stuck on: Interactive Force Experiment</div>
+                            <div class="student-status">
+                                <div class="status-indicator status-help"></div>
+                                <span>Help requested 1 min ago</span>
+                            </div>
+                        </div>
+
+                        <!-- Students with active discussions -->
+                        <div class="student-card has-discussion" onclick="viewStudent('alex', 'discussion')">
+                            <div class="student-name">Alex Johnson</div>
+                            <div class="student-location">Discussion on: Interactive Force Experiment</div>
+                            <div class="student-status">
+                                <div class="status-indicator status-discussion"></div>
+                                <span>Asked question 5 min ago</span>
+                            </div>
+                        </div>
+
+                        <div class="student-card has-discussion" onclick="viewStudent('sophia', 'discussion')">
+                            <div class="student-name">Sophia Martinez</div>
+                            <div class="student-location">Discussion on: Interactive Force Experiment</div>
+                            <div class="student-status">
+                                <div class="status-indicator status-discussion"></div>
+                                <span>Active in discussion - 2 min ago</span>
+                            </div>
+                        </div>
+
+                        <!-- Active students -->
+                        <div class="student-card" onclick="viewStudent('emma', 'active')">
+                            <div class="student-name">Emma Rodriguez</div>
+                            <div class="student-location">Currently on: Real-World Connections</div>
+                            <div class="student-status">
+                                <div class="status-indicator status-active"></div>
+                                <span>Writing reflection - 8 min</span>
+                            </div>
+                        </div>
+
+                        <div class="student-card" onclick="viewStudent('sofia', 'active')">
+                            <div class="student-name">Sofia Patel</div>
+                            <div class="student-location">Currently on: Check Your Understanding</div>
+                            <div class="student-status">
+                                <div class="status-indicator status-active"></div>
+                                <span>Taking quiz - 4 min</span>
+                            </div>
+                        </div>
+
+                        <div class="student-card" onclick="viewStudent('carlos', 'active')">
+                            <div class="student-name">Carlos Garcia</div>
+                            <div class="student-location">Currently on: Understanding Forces</div>
+                            <div class="student-status">
+                                <div class="status-indicator status-active"></div>
+                                <span>Watching video - 6 min</span>
+                            </div>
+                        </div>
+
+                        <!-- Inactive students -->
+                        <div class="student-card inactive" onclick="viewStudent('david', 'inactive')">
+                            <div class="student-name">David Kim</div>
+                            <div class="student-location">Last seen: Understanding Forces</div>
+                            <div class="student-status">
+                                <div class="status-indicator status-inactive"></div>
+                                <span>Inactive - 15 min</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Individual Student View -->
+                <div class="individual-student-view" id="individualView">
+                    <button class="back-button" onclick="backToDashboard()">← Back to Students</button>
+                    
+                    <h2 id="studentViewTitle">James Chen - Help Request</h2>
+                    
+                    <div class="help-request-panel" id="helpRequestPanel">
+                        <div class="help-request-text">
+                            "I'm confused about the quiz question. I thought heavier objects would move faster because they have more force, but my experiment showed something different. Can you help me understand?"
+                        </div>
+                        <div style="font-size: 0.9rem; color: #6b7280;">
+                            📍 Student location: Check Your Understanding (Quiz Question 1)<br>
+                            ⏰ Help requested: 3 minutes ago<br>
+                            📊 Progress: 65% complete
+                        </div>
+                    </div>
+
+                    <div class="discussion-panel hidden" id="discussionPanel">
+                        <div class="discussion-text">
+                            "Why do my experimental results show that the lighter ball accelerated more than the heavier ball when I used the same force? Shouldn't the heavier ball be stronger?"
+                        </div>
+                        <div style="font-size: 0.9rem; color: #92400e;">
+                            📍 Student location: Interactive Force Experiment<br>
+                            💬 Discussion started: 5 minutes ago<br>
+                            📊 Progress: 45% complete
+                        </div>
+                    </div>
+
+                    <div class="student-workspace-preview">
+                        <h4>Student's Current View:</h4>
+                        <div style="background: white; padding: 1rem; border-radius: 4px; margin-top: 0.5rem; border: 1px solid #e5e7eb;">
+                            <div style="background: #fef3c7; padding: 1rem; border-radius: 6px; border: 1px solid #f59e0b;">
+                                <div style="font-weight: 600; color: #92400e; margin-bottom: 0.5rem;">
+                                    🤔 Based on your experiments, which statement is most accurate?
+                                </div>
+                                <div style="font-size: 0.9rem; color: #b45309;">
+                                    ⚠️ Student has not selected an answer yet
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="teacher-response">
+                        <h4 id="responseTitle">Send Response to James:</h4>
+                        <textarea class="response-input" id="responseInput" placeholder="Type your response here...">Great question, James! You're thinking scientifically by comparing your hypothesis to your experimental results. 
+
+The key insight is that heavier objects don't have "more force" - they have more MASS. When you apply the same force to objects with different masses, the lighter object will accelerate more.
+
+Think of it like this: if you push a shopping cart (light) and a car (heavy) with the same force, which moves faster?
+
+Try the quiz question again with this in mind. Look for the answer that mentions how the SAME force affects objects differently based on their mass.</textarea>
+                        <button class="send-response" onclick="sendResponse()">Send Response</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = '';
+        let currentView = 'nav';
+        let currentStudentView = null;
+        let currentStudentId = null;
+        let currentCourse = null;
+
+        // Teacher Navigation
+        function showTeacherNav() {
+            currentView = 'nav';
+            hideAllTeacherScreens();
+            document.getElementById('teacherNav').classList.remove('hidden');
+        }
+
+        function hideAllTeacherScreens() {
+            const screens = [
+                'teacherNav', 'courseSelection', 'courseDashboard', 
+                'taskDashboard', 'studentSelection', 'individualStudentDashboard'
+            ];
+            
+            screens.forEach(screenId => {
+                const screen = document.getElementById(screenId);
+                if (screen) {
+                    screen.classList.add('hidden');
+                }
+            });
+            
+            // Also hide internal views within task dashboard
+            const mainDashboard = document.getElementById('mainDashboard');
+            const individualView = document.getElementById('individualView');
+            
+            if (mainDashboard) {
+                mainDashboard.style.display = 'none';
+            }
+            if (individualView) {
+                individualView.style.display = 'none';
+            }
+        }
+
+        // Course-centric navigation
+        function showCourseSelection() {
+            currentView = 'courses';
+            hideAllTeacherScreens();
+            document.getElementById('courseSelection').classList.remove('hidden');
+        }
+
+        function selectCourse(courseId) {
+            currentView = 'course-dashboard';
+            currentCourse = courseId;
+            hideAllTeacherScreens();
+            
+            // Update course dashboard content based on selected course
+            updateCourseDashboard(courseId);
+            
+            document.getElementById('courseDashboard').classList.remove('hidden');
+        }
+
+        function updateCourseDashboard(courseId) {
+            const courseData = {
+                'physics': {
+                    title: 'Physics',
+                    meta: '8 students • 28 active tasks',
+                    activeStudents: 6,
+                    helpRequests: 2,
+                    discussions: 3
+                },
+                'math': {
+                    title: 'Mathematics', 
+                    meta: '8 students • 32 active tasks',
+                    activeStudents: 4,
+                    helpRequests: 1,
+                    discussions: 5
+                },
+                'english': {
+                    title: 'English',
+                    meta: '6 students • 26 active tasks', 
+                    activeStudents: 3,
+                    helpRequests: 0,
+                    discussions: 2
+                }
+            };
+
+            const course = courseData[courseId] || courseData['physics'];
+            
+            document.getElementById('courseTitle').textContent = course.title;
+            document.getElementById('courseMeta').textContent = course.meta;
+            document.getElementById('breadcrumbCourseName').textContent = course.title;
+            document.getElementById('activeStudents').textContent = course.activeStudents;
+            document.getElementById('helpRequests').textContent = course.helpRequests;
+            document.getElementById('activeDiscussions').textContent = course.discussions;
+        }
+
+        function selectTask(taskId) {
+            currentView = 'task-dashboard';
+            hideAllTeacherScreens();
+            
+            const taskDashboard = document.getElementById('taskDashboard');
+            if (taskDashboard) {
+                taskDashboard.classList.remove('hidden');
+            }
+            
+            const mainDashboard = document.getElementById('mainDashboard');
+            if (mainDashboard) {
+                mainDashboard.style.display = 'block';
+            }
+            
+            const individualView = document.getElementById('individualView');
+            if (individualView) {
+                individualView.style.display = 'none';
+            }
+        }
+
+        // Student-centric navigation
+        function showStudentSelection() {
+            currentView = 'students';
+            hideAllTeacherScreens();
+            document.getElementById('studentSelection').classList.remove('hidden');
+        }
+
+        function viewStudentDashboard(studentId) {
+            currentView = 'student-dashboard';
+            currentStudentId = studentId;
+            hideAllTeacherScreens();
+            document.getElementById('individualStudentDashboard').classList.remove('hidden');
+            
+            updateStudentDashboard(studentId);
+        }
+
+        function updateStudentDashboard(studentId) {
+            const studentData = getStudentData(studentId);
+            
+            document.getElementById('dashboardAvatar').textContent = studentData.initials;
+            document.getElementById('dashboardStudentName').textContent = studentData.name;
+            document.getElementById('dashboardStudentMeta').textContent = studentData.meta;
+            document.getElementById('breadcrumbStudentName').textContent = studentData.name;
+            
+            const alertSummary = document.getElementById('alertSummary');
+            alertSummary.innerHTML = studentData.alerts;
+        }
+
+        function getStudentData(studentId) {
+            const students = {
+                'james-chen': {
+                    initials: 'JC',
+                    name: 'James Chen',
+                    meta: 'MAP Academy • 3 Courses • ID: 2024-JC-789',
+                    alerts: `
+                        <div class="alert-card urgent">
+                            <h4>🚨 Immediate Attention</h4>
+                            <div>Help request in Physics: Forces & Motion (3 min ago)</div>
+                            <button class="alert-action" onclick="goToHelpRequest()">Respond Now</button>
+                        </div>
+                        <div class="alert-card warning">
+                            <h4>⚠️ Needs Support</h4>
+                            <div>Behind schedule on Math: Algebraic Expressions</div>
+                            <button class="alert-action" onclick="sendEncouragement()">Send Message</button>
+                        </div>
+                    `
+                },
+                'alex-johnson': {
+                    initials: 'AJ',
+                    name: 'Alex Johnson',
+                    meta: 'MAP Academy • 3 Courses • ID: 2024-AJ-456',
+                    alerts: `
+                        <div class="alert-card warning">
+                            <h4>💬 Active Discussion</h4>
+                            <div>Leading discussion in Physics: Forces & Motion</div>
+                            <button class="alert-action" onclick="joinDiscussion()">Join Discussion</button>
+                        </div>
+                    `
+                },
+                'emma-rodriguez': {
+                    initials: 'ER',
+                    name: 'Emma Rodriguez',
+                    meta: 'MAP Academy • 3 Courses • ID: 2024-ER-123',
+                    alerts: `
+                        <div class="alert-card" style="background: #ecfdf5; border-left-color: #10b981;">
+                            <h4>✨ High Performer</h4>
+                            <div>Completed Physics task early with 96% score</div>
+                            <button class="alert-action" onclick="sendCongratulations()">Send Praise</button>
+                        </div>
+                    `
+                },
+                'maya-thompson': {
+                    initials: 'MT',
+                    name: 'Maya Thompson',
+                    meta: 'MAP Academy • 2 Courses • ID: 2024-MT-234',
+                    alerts: `
+                        <div class="alert-card urgent">
+                            <h4>🚨 Immediate Attention</h4>
+                            <div>Help request in Physics: Forces & Motion (1 min ago)</div>
+                            <button class="alert-action" onclick="goToHelpRequest()">Respond Now</button>
+                        </div>
+                    `
+                },
+                'sophia-martinez': {
+                    initials: 'SM',
+                    name: 'Sophia Martinez',
+                    meta: 'MAP Academy • 2 Courses • ID: 2024-SM-345',
+                    alerts: `
+                        <div class="alert-card warning">
+                            <h4>💬 Active Discussion</h4>
+                            <div>Participating in Physics discussion</div>
+                            <button class="alert-action" onclick="joinDiscussion()">Join Discussion</button>
+                        </div>
+                    `
+                },
+                'sofia-patel': {
+                    initials: 'SP',
+                    name: 'Sofia Patel',
+                    meta: 'MAP Academy • 3 Courses • ID: 2024-SP-456',
+                    alerts: `
+                        <div class="alert-card" style="background: #f0f9ff; border-left-color: #3b82f6;">
+                            <h4>📚 Currently Active</h4>
+                            <div>Working on Physics quiz - making good progress</div>
+                        </div>
+                    `
+                },
+                'carlos-garcia': {
+                    initials: 'CG',
+                    name: 'Carlos Garcia',
+                    meta: 'MAP Academy • 2 Courses • ID: 2024-CG-567',
+                    alerts: `
+                        <div class="alert-card" style="background: #f0f9ff; border-left-color: #3b82f6;">
+                            <h4>📹 Currently Active</h4>
+                            <div>Watching Physics video - steady progress</div>
+                        </div>
+                    `
+                },
+                'david-kim': {
+                    initials: 'DK',
+                    name: 'David Kim',
+                    meta: 'MAP Academy • 2 Courses • ID: 2024-DK-678',
+                    alerts: `
+                        <div class="alert-card warning">
+                            <h4>⚠️ Inactive Today</h4>
+                            <div>No activity for 15 minutes - may need check-in</div>
+                            <button class="alert-action" onclick="sendEncouragement()">Send Check-in</button>
+                        </div>
+                    `
+                }
+            };
+            
+            return students[studentId] || students['james-chen'];
+        }
+
+        // Navigation back functions
+        function backToCourses() {
+            showCourseSelection();
+        }
+
+        function backToCourseDashboard() {
+            if (currentCourse) {
+                selectCourse(currentCourse);
+            } else {
+                showCourseSelection();
+            }
+        }
+
+        function backToStudentSelection() {
+            showStudentSelection();
+        }
+
+        function backToDashboard() {
+            document.getElementById('mainDashboard').style.display = 'block';
+            document.getElementById('individualView').style.display = 'none';
+        }
+
+        // Student filtering
+        function filterAllStudents(filter) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            alert(`Filtering to show: ${filter} students`);
+        }
+
+        // Quick actions from student dashboard
+        function goToHelpRequest() {
+            selectTask('forces-motion');
+            viewStudent('james', 'help');
+        }
+
+        function sendEncouragement() {
+            alert('📧 Encouragement message sent to student! They will see it in their current workspace.');
+        }
+
+        function joinDiscussion() {
+            selectTask('forces-motion');
+            viewStudent('alex', 'discussion');
+        }
+
+        function sendCongratulations() {
+            alert('🎉 Congratulations message sent! The student will be notified of your recognition.');
+        }
+
+        function scheduleCheckin() {
+            alert('📅 Check-in meeting scheduled for tomorrow at 2:00 PM. Student and parents have been notified.');
+        }
+
+        function viewFullProgress() {
+            alert('📊 Opening detailed progress report with competency tracking and historical performance data.');
+        }
+
+        function viewCourseActivity(courseId, studentId) {
+            if (courseId === 'physics') {
+                selectTask('forces-motion');
+                viewStudent(studentId.split('-')[0], 'help');
+            } else {
+                alert(`Opening ${courseId} course activity for ${studentId}`);
+            }
+        }
+
+        // Teacher interactions
+        function filterStudents(filter) {
+            document.querySelectorAll('.control-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            alert(`Filtering to show: ${filter} students`);
+        }
+
+        function viewStudent(studentId, type) {
+            currentStudentView = { id: studentId, type: type };
+            document.getElementById('mainDashboard').style.display = 'none';
+            document.getElementById('individualView').style.display = 'block';
+            
+            document.getElementById('helpRequestPanel').style.display = 'none';
+            document.getElementById('discussionPanel').style.display = 'none';
+            
+            if (type === 'help') {
+                document.getElementById('studentViewTitle').textContent = `${studentId.charAt(0).toUpperCase() + studentId.slice(1)} - Help Request`;
+                document.getElementById('helpRequestPanel').style.display = 'block';
+                document.getElementById('responseTitle').textContent = `Send Response to ${studentId.charAt(0).toUpperCase() + studentId.slice(1)}:`;
+                document.getElementById('responseInput').placeholder = 'Type your response here...';
+            } else if (type === 'discussion') {
+                document.getElementById('studentViewTitle').textContent = `${studentId.charAt(0).toUpperCase() + studentId.slice(1)} - Discussion`;
+                document.getElementById('discussionPanel').classList.remove('hidden');
+                document.getElementById('responseTitle').textContent = `Join Discussion with ${studentId.charAt(0).toUpperCase() + studentId.slice(1)}:`;
+                document.getElementById('responseInput').placeholder = 'Add to the discussion...';
+                
+                if (studentId === 'alex') {
+                    document.querySelector('.discussion-text').textContent = '"Why do my experimental results show that the lighter ball accelerated more than the heavier ball when I used the same force? Shouldn\'t the heavier ball be stronger?"';
+                }
+            } else {
+                document.getElementById('studentViewTitle').textContent = `${studentId.charAt(0).toUpperCase() + studentId.slice(1)} - Progress Overview`;
+                document.getElementById('responseTitle').textContent = `Send Message to ${studentId.charAt(0).toUpperCase() + studentId.slice(1)}:`;
+                document.getElementById('responseInput').placeholder = 'Send encouragement or guidance...';
+            }
+        }
+
+        function sendResponse() {
+            const type = currentStudentView?.type || 'help';
+            const name = currentStudentView?.id?.charAt(0).toUpperCase() + currentStudentView?.id?.slice(1) || 'Student';
+            
+            if (type === 'help') {
+                alert(`✅ Response sent to ${name}! They will see your message in their workspace with full context of where they were when they asked for help.`);
+            } else if (type === 'discussion') {
+                alert(`✅ Added to discussion with ${name}! Other students in the discussion will also see your response.`);
+            } else {
+                alert(`✅ Message sent to ${name}! They will receive your feedback in their current workspace.`);
+            }
+            
+            backToDashboard();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            hideAllTeacherScreens();
+            showTeacherNav();
+        });
+    </script>
+</body>
+</html>
