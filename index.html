@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GradPath Teacher Experience - Prototype</title>
+    <title>GradPath Staff Experience - Prototype</title>
     <link rel="icon" type="image/png" href="favicon.png" />
     <style>
       * {
@@ -1206,7 +1206,7 @@
                 <div class="alert-item urgent">
                   🚨 Help request in Physics (3min ago)
                 </div>
-                <div class="alert-item">📚 Behind on Math assignment</div>
+                <div class="alert-item">📚 Working on Math assignment</div>
               </div>
               <div class="student-summary">
                 <div class="summary-stat">📊 68% avg completion</div>
@@ -1250,10 +1250,7 @@
               </div>
               <div class="student-alerts">
                 <div class="alert-item discussion">
-                  💬 Active in Physics discussion
-                </div>
-                <div class="alert-item discussion">
-                  💬 Started Math discussion
+                  📝 Submitted lesson in Math (1 day ago)
                 </div>
               </div>
               <div class="student-summary">
@@ -1275,7 +1272,7 @@
               </div>
               <div class="student-alerts">
                 <div class="alert-item discussion">
-                  💬 Active in Physics discussion
+                  📝 Submitted lesson in Physics (1 day ago)
                 </div>
               </div>
               <div class="student-summary">
@@ -1341,7 +1338,7 @@
                 </div>
               </div>
               <div class="student-alerts">
-                <div class="alert-item">📹 Watching Physics video</div>
+                <div class="alert-item">📚 Working on Physics lesson</div>
               </div>
               <div class="student-summary">
                 <div class="summary-stat">📊 78% avg completion</div>
@@ -1408,9 +1405,12 @@
                   Respond Now
                 </button>
               </div>
-              <div class="alert-card warning">
-                <h4>⚠️ Needs Support</h4>
-                <div>Behind schedule on Math: Algebraic Expressions</div>
+              <div
+                class="alert-card"
+                style="background: #f0f9ff; border-left-color: #3b82f6"
+              >
+                <h4>📚 Currently Working</h4>
+                <div>Working on Math: Algebraic Expressions</div>
                 <button class="alert-action" onclick="sendEncouragement()">
                   Send Message
                 </button>
@@ -1451,8 +1451,8 @@
                   <div class="progress-indicator">72%</div>
                 </div>
                 <div class="current-activity">
-                  <div class="activity-status behind">
-                    ⚠️ Behind on Algebraic Expressions
+                  <div class="activity-status good">
+                    📚 Working on Algebraic Expressions
                   </div>
                   <div class="activity-location">Due tomorrow</div>
                 </div>
@@ -1514,19 +1514,10 @@
                   <div class="timeline-time">15 min ago</div>
                   <div class="timeline-content">
                     <div class="timeline-title">
-                      📝 Completed Activity - Physics
+                      📝 Submitted Lesson - Physics
                     </div>
                     <div class="timeline-description">
                       Finished Interactive Force Experiment worksheet
-                    </div>
-                  </div>
-                </div>
-                <div class="timeline-item">
-                  <div class="timeline-time">1 hour ago</div>
-                  <div class="timeline-content">
-                    <div class="timeline-title">📹 Watched Video - Physics</div>
-                    <div class="timeline-description">
-                      Forces in Everyday Life (completed)
                     </div>
                   </div>
                 </div>
@@ -1541,28 +1532,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="quick-actions">
-              <h3>Quick Actions</h3>
-              <div class="actions-grid">
-                <button
-                  class="quick-action-btn urgent"
-                  onclick="goToHelpRequest()"
-                >
-                  🚨 Respond to Help Request
-                </button>
-                <button class="quick-action-btn" onclick="sendEncouragement()">
-                  💌 Send Encouragement
-                </button>
-                <button class="quick-action-btn" onclick="scheduleCheckin()">
-                  📅 Schedule Check-in
-                </button>
-                <button class="quick-action-btn" onclick="viewFullProgress()">
-                  📊 View Detailed Progress
-                </button>
               </div>
             </div>
           </div>
@@ -2115,7 +2084,7 @@ Try the quiz question again with this in mind. Look for the answer that mentions
                         </div>
                         <div class="alert-card warning">
                             <h4>⚠️ Needs Support</h4>
-                            <div>Behind schedule on Math: Algebraic Expressions</div>
+                            <div>Working on Math: Algebraic Expressions</div>
                             <button class="alert-action" onclick="sendEncouragement()">Send Message</button>
                         </div>
                     `,
@@ -2125,10 +2094,9 @@ Try the quiz question again with this in mind. Look for the answer that mentions
             name: "Alex Johnson",
             meta: "MAP Academy • 3 Courses • ID: 2024-AJ-456",
             alerts: `
-                        <div class="alert-card warning">
-                            <h4>💬 Active Discussion</h4>
-                            <div>Leading discussion in Physics: Forces & Motion</div>
-                            <button class="alert-action" onclick="joinDiscussion()">Join Discussion</button>
+                        <div class="alert-card" style="background: #f0f9ff; border-left-color: #3b82f6;">
+                            <h4>📝 Recent Submission</h4>
+                            <div>Submitted lesson in Math (1 day ago)</div>
                         </div>
                     `,
           },
@@ -2161,10 +2129,9 @@ Try the quiz question again with this in mind. Look for the answer that mentions
             name: "Sophia Martinez",
             meta: "MAP Academy • 2 Courses • ID: 2024-SM-345",
             alerts: `
-                        <div class="alert-card warning">
-                            <h4>💬 Active Discussion</h4>
-                            <div>Participating in Physics discussion</div>
-                            <button class="alert-action" onclick="joinDiscussion()">Join Discussion</button>
+                        <div class="alert-card" style="background: #f0f9ff; border-left-color: #3b82f6;">
+                            <h4>📝 Recent Submission</h4>
+                            <div>Submitted lesson in Physics (1 day ago)</div>
                         </div>
                     `,
           },
@@ -2185,8 +2152,8 @@ Try the quiz question again with this in mind. Look for the answer that mentions
             meta: "MAP Academy • 2 Courses • ID: 2024-CG-567",
             alerts: `
                         <div class="alert-card" style="background: #f0f9ff; border-left-color: #3b82f6;">
-                            <h4>📹 Currently Active</h4>
-                            <div>Watching Physics video - steady progress</div>
+                            <h4>📚 Currently Active</h4>
+                            <div>Working on Physics lesson - steady progress</div>
                         </div>
                     `,
           },
