@@ -1102,7 +1102,7 @@
           </div>
 
           <div class="courses-grid">
-            <div class="course-card physics" onclick="selectCourse('physics')">
+            <div class="course-card physics">
               <h3 class="course-title">Physics</h3>
               <div class="course-details">8 students</div>
               <div class="course-stats">
@@ -1117,7 +1117,7 @@
               </div>
             </div>
 
-            <div class="course-card math" onclick="selectCourse('math')">
+            <div class="course-card math">
               <h3 class="course-title">Mathematics</h3>
               <div class="course-details">8 students</div>
               <div class="course-stats">
@@ -1132,7 +1132,7 @@
               </div>
             </div>
 
-            <div class="course-card english" onclick="selectCourse('english')">
+            <div class="course-card english">
               <h3 class="course-title">English</h3>
               <div class="course-details">6 students</div>
               <div class="course-stats">
@@ -1199,7 +1199,7 @@
                 <div class="student-avatar">JC</div>
                 <div class="student-info">
                   <h3>James Chen</h3>
-                  <div class="student-courses">Physics • Math • English</div>
+                  <div class="student-courses">Physics • Math</div>
                 </div>
               </div>
               <div class="student-alerts">
@@ -1222,7 +1222,7 @@
                 <div class="student-avatar">MT</div>
                 <div class="student-info">
                   <h3>Maya Thompson</h3>
-                  <div class="student-courses">Physics • Math</div>
+                  <div class="student-courses">Physics • Math • English</div>
                 </div>
               </div>
               <div class="student-alerts">
@@ -1437,12 +1437,7 @@
                   <div>⏰ 2.1hrs this week</div>
                   <div>🎯 Last score: 85%</div>
                 </div>
-                <button
-                  class="course-action"
-                  onclick="viewCourseActivity('physics', 'james-chen')"
-                >
-                  View Details
-                </button>
+                <button class="course-action">View Details</button>
               </div>
 
               <div class="course-progress-card math">
@@ -1461,12 +1456,7 @@
                   <div>⏰ 1.8hrs this week</div>
                   <div>🎯 Last score: 78%</div>
                 </div>
-                <button
-                  class="course-action"
-                  onclick="viewCourseActivity('math', 'james-chen')"
-                >
-                  View Details
-                </button>
+                <button class="course-action">View Details</button>
               </div>
 
               <div class="course-progress-card english">
@@ -1485,12 +1475,7 @@
                   <div>⏰ 1.4hrs this week</div>
                   <div>🎯 Last score: 92%</div>
                 </div>
-                <button
-                  class="course-action"
-                  onclick="viewCourseActivity('english', 'james-chen')"
-                >
-                  View Details
-                </button>
+                <button class="course-action">View Details</button>
               </div>
             </div>
 
@@ -1505,9 +1490,7 @@
                     <div class="timeline-description">
                       Confused about quiz question in Forces & Motion
                     </div>
-                    <button class="timeline-action" onclick="goToHelpRequest()">
-                      Respond
-                    </button>
+                    <button class="timeline-action">Respond</button>
                   </div>
                 </div>
                 <div class="timeline-item">
@@ -2080,12 +2063,12 @@ Try the quiz question again with this in mind. Look for the answer that mentions
                         <div class="alert-card urgent">
                             <h4>🚨 Immediate Attention</h4>
                             <div>Help request in Physics: Forces & Motion (3 min ago)</div>
-                            <button class="alert-action" onclick="goToHelpRequest()">Respond Now</button>
+                            <button class="alert-action">Respond Now</button>
                         </div>
                         <div class="alert-card warning">
                             <h4>⚠️ Needs Support</h4>
                             <div>Working on Math: Algebraic Expressions</div>
-                            <button class="alert-action" onclick="sendEncouragement()">Send Message</button>
+                            <button class="alert-action">Send Message</button>
                         </div>
                     `,
           },
@@ -2108,7 +2091,7 @@ Try the quiz question again with this in mind. Look for the answer that mentions
                         <div class="alert-card" style="background: #ecfdf5; border-left-color: #10b981;">
                             <h4>✨ High Performer</h4>
                             <div>Completed Physics task early with 96% score</div>
-                            <button class="alert-action" onclick="sendCongratulations()">Send Praise</button>
+                            <button class="alert-action">Send Praise</button>
                         </div>
                     `,
           },
@@ -2120,7 +2103,7 @@ Try the quiz question again with this in mind. Look for the answer that mentions
                         <div class="alert-card urgent">
                             <h4>🚨 Immediate Attention</h4>
                             <div>Help request in Physics: Forces & Motion (1 min ago)</div>
-                            <button class="alert-action" onclick="goToHelpRequest()">Respond Now</button>
+                            <button class="alert-action">Respond Now</button>
                         </div>
                     `,
           },
@@ -2164,8 +2147,8 @@ Try the quiz question again with this in mind. Look for the answer that mentions
             alerts: `
                         <div class="alert-card warning">
                             <h4>⚠️ Inactive Today</h4>
-                            <div>No activity for 15 minutes - may need check-in</div>
-                            <button class="alert-action" onclick="sendEncouragement()">Send Check-in</button>
+                            <div>No activity for 3 days - may need check-in</div>
+                            <button class="alert-action">Send Message</button>
                         </div>
                     `,
           },
